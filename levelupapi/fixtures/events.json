@@ -1,0 +1,12 @@
+[
+    {
+        "model": "levelupapi.event",
+        "pk": 1,
+        "fields": {
+            "game": 1,
+            "organizer": 1,
+            "start_date": "2020-08-29T13:24:27.172Z",
+            "description": "A few people getting together to play a serious game of DRUNK TROUBLE."
+        }
+    }
+]
