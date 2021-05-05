@@ -1,0 +1,22 @@
+[
+    {
+        "model": "levelupapi.game",
+        "pk": 1,
+        "fields": {
+            "game_type": 1,
+            "title": "Trouble",
+            "number_of_players": 4,
+            "skill_level": 2
+        }
+    },
+    {
+        "model": "levelupapi.game",
+        "pk": 2,
+        "fields": {
+            "game_type": 2,
+            "title": "Elder Scrolls",
+            "number_of_players": 4,
+            "skill_level": 6
+        }
+    }
+]
