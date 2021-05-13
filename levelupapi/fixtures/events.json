@@ -3,10 +3,33 @@
         "model": "levelupapi.event",
         "pk": 1,
         "fields": {
-            "game": 1,
             "organizer": 1,
-            "start_date": "2020-08-29T13:24:27.172Z",
-            "description": "A few people getting together to play a serious game of DRUNK TROUBLE."
+            "description": "Welcome To at lunch",
+            "game": 1,
+            "date": "2021-10-04",
+            "time": "12:00"
+        }
+    },
+    {
+        "model": "levelupapi.event",
+        "pk": 2,
+        "fields": {
+            "organizer": 1,
+            "description": "Friday night Settlers and drinks",
+            "game": 2,
+            "date": "2021-08-14",
+            "time": "19:30"
+        }
+    },
+    {
+        "model": "levelupapi.event",
+        "pk": 3,
+        "fields": {
+            "organizer": 1,
+            "description": "Vale of the Frost King campaign. All weekend.",
+            "game": 3,
+            "date": "2021-04-20",
+            "time": "8:00"
         }
     }
 ]

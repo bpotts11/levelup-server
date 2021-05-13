@@ -1,4 +1,3 @@
-from levelupapi.models import game
 from django.db import models
 
 
