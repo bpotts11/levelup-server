@@ -28,14 +28,14 @@ class GameView(ViewSet):
         game = Game()
         game.title = request.data["title"]
         game.maker = request.data["maker"]
-        game.number_of_players = request.data["numberOfPlayers"]
-        game.skill_level = request.data["skillLevel"]
+        game.number_of_players = request.data["number_of_players"]
+        game.skill_level = request.data["skill_level"]
         game.gamer = gamer
 
         # Use the Django ORM to get the record from the database
         # whose `id` is what the client passed as the
         # `gameTypeId` in the body of the request.
-        game_type = GameType.objects.get(pk=request.data["gameTypeId"])
+        game_type = GameType.objects.get(pk=request.data["game_type_id"])
         game.game_type = game_type
 
         # Try to save the new game to the database, then
@@ -52,7 +52,7 @@ class GameView(ViewSet):
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, pk):
         """Handle GET requests for single game
 
         Returns:
@@ -70,7 +70,7 @@ class GameView(ViewSet):
         except Exception as ex:
             return HttpResponseServerError(ex)
 
-    def update(self, request, pk=None):
+    def update(self, request, pk):
         """Handle PUT requests for a game
 
         Returns:
@@ -84,8 +84,8 @@ class GameView(ViewSet):
         game = Game.objects.get(pk=pk)
         game.title = request.data["title"]
         game.maker = request.data["maker"]
-        game.number_of_players = request.data["numberOfPlayers"]
-        game.skill_level = request.data["skillLevel"]
+        game.number_of_players = request.data["number_of_players"]
+        game.skill_level = request.data["skill_level"]
         game.gamer = gamer
 
         game_type = GameType.objects.get(pk=request.data["gameTypeId"])
@@ -96,7 +96,7 @@ class GameView(ViewSet):
         # server is not sending back any data in the response
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
-    def destroy(self, request, pk=None):
+    def destroy(self, request, pk):
         """Handle DELETE requests for a single game
 
         Returns:
@@ -146,4 +146,4 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = ('id', 'title', 'maker', 'number_of_players',
                   'skill_level', 'game_type')
-        depth = 2
+        depth = 1

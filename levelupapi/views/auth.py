@@ -9,12 +9,6 @@ from levelupapi.models import Gamer
 
 @csrf_exempt
 def login_user(request):
-    '''Handles the authentication of a gamer
-
-    Method arguments:
-      request -- The full HTTP request object
-    '''
-
     req_body = json.loads(request.body.decode())
 
     # If the request is a HTTP POST, try to pull out the relevant information.
@@ -39,13 +33,6 @@ def login_user(request):
 
 @csrf_exempt
 def register_user(request):
-    '''Handles the creation of a new gamer for authentication
-
-    Method arguments:
-      request -- The full HTTP request object
-    '''
-
-    # Load the JSON string of the request body into a dict
     req_body = json.loads(request.body.decode())
 
     # Create a new user by invoking the `create_user` helper method
@@ -63,9 +50,6 @@ def register_user(request):
         bio=req_body['bio'],
         user=new_user
     )
-
-    # Commit the user to the database by saving it
-    gamer.save()
 
     # Use the REST Framework's token generator on the new user account
     token = Token.objects.create(user=new_user)
