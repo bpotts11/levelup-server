@@ -58,8 +58,7 @@ class EventView(ViewSet):
 
         event = Event.objects.get(pk=pk)
         event.description = request.data["description"]
-        event.date = request.data["date"]
-        event.time = request.data["time"]
+        event.start_date = request.data["startDate"]
         event.organizer = organizer
 
         game = Game.objects.get(pk=request.data["gameId"])
@@ -152,10 +151,11 @@ class GameSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events"""
-    organizer = EventGamerSerializer()
+    organizer = EventGamerSerializer(many=False)
+    # game = GameSerializer(many=False)
 
     class Meta:
         model = Event
         fields = ('id', 'game', 'organizer',
-                  'description', 'start_date', 'attendees')
-        depth = 1
+                  'description', 'start_date')
+        # depth = 1
