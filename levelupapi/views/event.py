@@ -1,4 +1,3 @@
-
 """View module for handling requests about events"""
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -32,6 +31,7 @@ class EventView(ViewSet):
 
         try:
             event.save()
+            event.attendees.set(request.data['gamers'])
             serializer = EventSerializer(event, context={'request': request})
             return Response(serializer.data)
         except ValidationError as ex:
@@ -46,7 +46,7 @@ class EventView(ViewSet):
             event = Event.objects.get(pk=pk)
             serializer = EventSerializer(event, context={'request': request})
             return Response(serializer.data)
-        except Exception:
+        except Exception as ex:
             return HttpResponseServerError(ex)
 
     def update(self, request, pk=None):
@@ -58,7 +58,8 @@ class EventView(ViewSet):
 
         event = Event.objects.get(pk=pk)
         event.description = request.data["description"]
-        event.start_date = request.data["startDate"]
+        event.date = request.data["date"]
+        event.time = request.data["time"]
         event.organizer = organizer
 
         game = Game.objects.get(pk=request.data["gameId"])
@@ -90,6 +91,10 @@ class EventView(ViewSet):
             Response -- JSON serialized list of events
         """
         events = Event.objects.all()
+        gamer = Gamer.objects.get(user=request.auth.user)
+
+        for event in events:
+            event.joined = gamer in event.attendees.all()
 
         # Support filtering events by game
         game = self.request.query_params.get('gameId', None)
@@ -151,11 +156,10 @@ class GameSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events"""
-    organizer = EventGamerSerializer(many=False)
-    # game = GameSerializer(many=False)
+    organizer = EventGamerSerializer()
 
     class Meta:
         model = Event
         fields = ('id', 'game', 'organizer',
-                  'description', 'start_date')
-        # depth = 1
+                  'description', 'start_date', 'attendees', 'joined')
+        depth = 1
