@@ -1,4 +1,3 @@
-from levelupapi.models import game
 from django.db import models
 
 
@@ -9,3 +8,11 @@ class Event(models.Model):
     description = models.TextField()
     attendees = models.ManyToManyField(
         "Gamer", through="EventGamer", related_name="attending")
+
+    @property
+    def joined(self):
+        return self.__joined
+
+    @joined.setter
+    def joined(self, value):
+        self.__joined = value
